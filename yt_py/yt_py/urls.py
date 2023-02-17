@@ -1,12 +1,13 @@
 from django.contrib import admin
 from django.urls import include, path
 from django.conf import settings
-from ytApp.views import Index, NewVideo
+from ytApp.views import HomeView, NewVideo, LoginView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('index', Index.as_view()),
-    path('new_video', NewVideo.as_view())
+    path('HomeView', HomeView.as_view()),
+    path('new_video', NewVideo.as_view()),
+    path('login', LoginView.as_view())
 ]
 
 

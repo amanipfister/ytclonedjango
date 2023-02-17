@@ -1,16 +1,25 @@
 from django.shortcuts import render
 from django.views.generic.base import View, HttpResponse
+from .forms import LoginForm
 
 
-class Index(View):
+class HomeView(View):
     template_name = 'index.html'
 
     def get(self, request):
         variableA = 'Index'
         return render(request, self.template_name, {'variableA': variableA})
 
+
+class LoginView(View):
+    template_name = 'login.html'
+
+    def get(self, request):
+        form = LoginForm()
+        return render(request, self.template_name, {'form': form})
+
     def post(self, request):
-        return HttpResponse('This is Index view. POST Request')
+        return HttpResponse('This is Login view. POST Request')
 
 
 class NewVideo(View):
@@ -18,7 +27,8 @@ class NewVideo(View):
 
     def get(self, request):
         variableA = 'New Video'
-        return render(request, self.template_name, {'variableA': variableA})
+        form = FormClass()
+        return render(request, self.template_name, {'variableA': variableA, 'from': form})
 
     def post(self, request):
         return HttpResponse('This is Index view. POST Request')
