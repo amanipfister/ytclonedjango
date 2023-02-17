@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "django": "^1.0.0",
+    "django-express": "^1.0.0",
+    "pip3": "^420.911.69"
+  }
+}
