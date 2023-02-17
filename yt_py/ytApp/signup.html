@@ -1,0 +1,6 @@
+SignUp <br />
+<div className="">
+  <form action="signup" method="POST">
+    {% csrf_token %} {{ form }}<input type="submit" value="Create Account" />
+  </form>
+</div>

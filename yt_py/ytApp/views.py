@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views.generic.base import View, HttpResponse
-from .forms import LoginForm
+from .forms import LoginForm, SignUpForm
 
 
 class HomeView(View):
@@ -19,7 +19,20 @@ class LoginView(View):
         return render(request, self.template_name, {'form': form})
 
     def post(self, request):
+        print('HELLO LOGIN')
         return HttpResponse('This is Login view. POST Request')
+
+
+class SignUpView(View):
+    template_name = 'signup.html'
+
+    def get(self, request):
+        form = SignUpForm()
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request):
+        print('HELLO SignUp')
+        return HttpResponse('This is SignUp view. POST Request')
 
 
 class NewVideo(View):
