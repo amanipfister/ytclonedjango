@@ -1,6 +1,16 @@
+{% extends "parent.html" %}
+<!-- INPUT -->
+
+<!-- TITLEAREA -->
+{% block title %} SignUp{% endblock %}
+
+<!-- BODY -->
+{% block body %} SignUp to create an account <br />
+
 SignUp <br />
 <div className="">
   <form action="signup" method="POST">
     {% csrf_token %} {{ form }}<input type="submit" value="Create Account" />
   </form>
 </div>
+{% endblock %}

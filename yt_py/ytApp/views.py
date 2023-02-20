@@ -1,6 +1,7 @@
 from django.shortcuts import render
-from django.views.generic.base import View, HttpResponse
+from django.views.generic.base import View, HttpResponse, HttpResponseRedirect
 from .forms import LoginForm, SignUpForm
+from django.contrib.auth.models import User
 
 
 class HomeView(View):
@@ -20,6 +21,7 @@ class LoginView(View):
 
     def post(self, request):
         print('HELLO LOGIN')
+            return HttpResponseRedirect('/')
         return HttpResponse('This is Login view. POST Request')
 
 
@@ -31,7 +33,24 @@ class SignUpView(View):
         return render(request, self.template_name, {'form': form})
 
     def post(self, request):
-        print('HELLO SignUp')
+        # pass filled out html-form from view to signupform()
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            # create a user account
+            print(form.cleaned_data['username'])
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            email = form.cleaned_data['email']
+            check_email = User.objects.get(email=email)
+            if check_email is not None:
+                return 'Please provide a valid email'
+            # return False
+            new_user = User(username=username, email=email)
+            new_user.set_password(password)
+            # print(new_user)
+            new_user.save()
+            # print(new_user)
+            return HttpResponseRedirect('/login')
         return HttpResponse('This is SignUp view. POST Request')
 
 
@@ -40,7 +59,7 @@ class NewVideo(View):
 
     def get(self, request):
         variableA = 'New Video'
-        form = FormClass()
+        form = NewVideo()
         return render(request, self.template_name, {'variableA': variableA, 'from': form})
 
     def post(self, request):

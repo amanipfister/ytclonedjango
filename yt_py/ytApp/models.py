@@ -17,6 +17,4 @@ class Comment(models.Model):
     video = models.ForeignKey(Video, on_delete=models.CASCADE)
 
 
-# class User(models.Model):
-#     name = models.CharField(max_length=30)
-#     password = models.CharField(max_length=30)
+

@@ -1,4 +1,13 @@
-Login View <br />
+{% extends "parent.html" %}
+<!-- INPUT -->
+
+<!-- TITLEAREA -->
+{% block title %} LogIn{% endblock %}
+
+<!-- BODY -->
+{% block body %} your account <br />
+
 <form action="login" method="POST">
   {% csrf_token %} {{ form }}<input type="submit" value="Login" />
 </form>
+{% endblock %}
