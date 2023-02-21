@@ -5,9 +5,7 @@
 {% block title %} NewVideo{% endblock %}
 
 <!-- BODY -->
-{% block body %} Upload Video.<br />
-<form action="upload" method="POST">
-  {% csrf_token %} {{ form }}<input type="submit" value="Upload" />
-</form>
+{% block body %} Upload Video...<br />
+{{ form.as_table}}
 <br />
 {% endblock %}

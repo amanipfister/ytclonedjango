@@ -83,7 +83,7 @@ class NewVideo(View):
     def get(self, request):
         variableA = 'New Video'
         form = NewVideoForm()
-        return render(request, self.template_name, {'variableA': variableA, 'from': form})
+        return render(request, self.template_name, {'variableA': variableA, 'form': form})
 
     def post(self, request):
         return HttpResponse('This is Index view. POST Request')
