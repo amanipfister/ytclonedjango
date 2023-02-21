@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.views.generic.base import View, HttpResponse, HttpResponseRedirect
 from .forms import LoginForm, SignUpForm
 from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login
 
 
 class HomeView(View):
@@ -20,9 +21,19 @@ class LoginView(View):
         return render(request, self.template_name, {'form': form})
 
     def post(self, request):
-        print('HELLO LOGIN')
-            return HttpResponseRedirect('/')
-        return HttpResponse('This is Login view. POST Request')
+        # pass filled out html-form from view to loginform()
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                # maybe add entry to logs with timestamp and ip later
+                login(request, user)
+                return HttpResponseRedirect('/HomeView')
+            else:
+                return HttpResponseRedirect('/login')
+        # return HttpResponse('This is Login view. POST Request')
 
 
 class SignUpView(View):
@@ -39,11 +50,14 @@ class SignUpView(View):
             # create a user account
             print(form.cleaned_data['username'])
             username = form.cleaned_data['username']
+            # check_username = User.objects.get(username=username)
+            # if check_username is not None:
+            #     return 'Please provide a valid username'
             password = form.cleaned_data['password']
             email = form.cleaned_data['email']
-            check_email = User.objects.get(email=email)
-            if check_email is not None:
-                return 'Please provide a valid email'
+            # check_email = User.objects.get(email=email)
+            # if check_email is not None:
+            #     return 'Please provide a valid email'
             # return False
             new_user = User(username=username, email=email)
             new_user.set_password(password)
