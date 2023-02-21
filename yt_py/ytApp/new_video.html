@@ -1,3 +1,13 @@
-{% extends "parent.html" %} {% block body %} Upload Video.<br />
-This is a GET Request for NewVideo. <br />
-{{ variableA }} {% endblock %}
+{% extends "parent.html" %}
+<!-- INPUT -->
+
+<!-- TITLEAREA -->
+{% block title %} NewVideo{% endblock %}
+
+<!-- BODY -->
+{% block body %} Upload Video.<br />
+<form action="upload" method="POST">
+  {% csrf_token %} {{ form }}<input type="submit" value="Upload" />
+</form>
+<br />
+{% endblock %}

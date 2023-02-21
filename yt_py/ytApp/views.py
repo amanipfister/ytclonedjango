@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views.generic.base import View, HttpResponse, HttpResponseRedirect
-from .forms import LoginForm, SignUpForm
+from .forms import LoginForm, SignUpForm, NewVideoForm
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 
@@ -17,6 +17,10 @@ class LoginView(View):
     template_name = 'login.html'
 
     def get(self, request):
+        if request.user.is_authenticated:
+            print('You are already logged in')
+            print(request.user)
+            return HttpResponseRedirect('/')
         form = LoginForm()
         return render(request, self.template_name, {'form': form})
 
@@ -30,7 +34,8 @@ class LoginView(View):
             if user is not None:
                 # maybe add entry to logs with timestamp and ip later
                 login(request, user)
-                return HttpResponseRedirect('/HomeView')
+                print('successful login')
+                return HttpResponseRedirect('/')
             else:
                 return HttpResponseRedirect('/login')
         # return HttpResponse('This is Login view. POST Request')
@@ -40,6 +45,10 @@ class SignUpView(View):
     template_name = 'signup.html'
 
     def get(self, request):
+        if request.user.is_authenticated:
+            print('You are already logged in')
+            print(request.user)
+            return HttpResponseRedirect('/')
         form = SignUpForm()
         return render(request, self.template_name, {'form': form})
 
@@ -73,7 +82,7 @@ class NewVideo(View):
 
     def get(self, request):
         variableA = 'New Video'
-        form = NewVideo()
+        form = NewVideoForm()
         return render(request, self.template_name, {'variableA': variableA, 'from': form})
 
     def post(self, request):
