@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.views.generic.base import View, HttpResponse, HttpResponseRedirect
 from .forms import LoginForm, SignUpForm, NewVideoForm
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 
 
 class HomeView(View):
@@ -20,6 +20,7 @@ class LoginView(View):
         if request.user.is_authenticated:
             print('You are already logged in')
             print(request.user)
+            logout(request)
             return HttpResponseRedirect('/')
         form = LoginForm()
         return render(request, self.template_name, {'form': form})
