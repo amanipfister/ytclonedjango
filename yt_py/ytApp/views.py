@@ -3,6 +3,7 @@ from django.views.generic.base import View, HttpResponse, HttpResponseRedirect
 from .forms import LoginForm, SignUpForm, NewVideoForm
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
+from .models import Video, Comment
 
 
 class HomeView(View):
@@ -82,9 +83,25 @@ class NewVideo(View):
     template_name = 'new_video.html'
 
     def get(self, request):
+        if request.user.is_authenticated == False:
+            return HttpResponseRedirect('/')
+            # return HttpResponseRedirect('Logintest for upload')
         variableA = 'New Video'
         form = NewVideoForm()
         return render(request, self.template_name, {'variableA': variableA, 'form': form})
 
     def post(self, request):
-        return HttpResponse('This is Index view. POST Request')
+        # pass the HTML-Form
+        form = NewVideoForm(request.POST, request.FILES)
+        if form.is_valid():
+            # create a new Video entry
+            title = form.cleaned_data['title']
+            description = form.cleaned_data['description']
+            file = form.cleaned_data['file']
+            new_video = Video(
+                title=title, description=description, user=request.user, path=file)
+            new_video.save()
+            # todo: redirect to detailed view page of a video
+            return HttpResponseRedirect('/video/{}'.format(new_video.id))
+        else:
+            return HttpResponse('Invalid video submission. Please retry at your convenience.')
