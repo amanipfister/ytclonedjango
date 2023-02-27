@@ -16,5 +16,5 @@ class SignUpForm(forms.Form):
 
 class NewVideoForm(forms.Form):
     title = forms.CharField(label='Title', max_length=20)
-    description = forms.CharField(label='Description', max_length=2000)
+    description = forms.CharField(label='Description', max_length=200)
     file = forms.FileField()

@@ -6,7 +6,7 @@
 
 <!-- BODY -->
 {% block body %} Video Upload<br />
-<form action="new_video" method="POST">
+<form enctype="multipart/form-data" method="POST" action="new_video">
   {% csrf_token %}
   <table>
     {{ form.as_table}}

@@ -4,6 +4,8 @@ from .forms import LoginForm, SignUpForm, NewVideoForm
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from .models import Video, Comment
+import string
+import random
 
 
 class HomeView(View):
@@ -88,20 +90,35 @@ class NewVideo(View):
             # return HttpResponseRedirect('Logintest for upload')
         variableA = 'New Video'
         form = NewVideoForm()
-        return render(request, self.template_name, {'variableA': variableA, 'form': form})
+        return render(request, self.template_name, {'form': form})
 
     def post(self, request):
         # pass the HTML-Form
         form = NewVideoForm(request.POST, request.FILES)
+
+        print(form)
+        # print(request.POST)
+        # print(request.FILES)
+
         if form.is_valid():
             # create a new Video entry
             title = form.cleaned_data['title']
             description = form.cleaned_data['description']
             file = form.cleaned_data['file']
+
+            # random_char = ''.join(random.choices(
+            #     string.ascii_uppercase + string.digits, k=10))
+            # path = random_char+file.name
+
             new_video = Video(
-                title=title, description=description, user=request.user, path=file)
+                title=title,
+                description=description,
+                user=request.user,
+                path=file)
             new_video.save()
+            print(new_video)
             # todo: redirect to detailed view page of a video
             return HttpResponseRedirect('/video/{}'.format(new_video.id))
         else:
+
             return HttpResponse('Invalid video submission. Please retry at your convenience.')
