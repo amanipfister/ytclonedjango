@@ -5,15 +5,16 @@
 {% block title %} Home {% endblock %}
 
 <!-- BODY -->
-{% block body %} MENU <br />
-<h4>Welcome</h4>
+{% block body %}
+<h2>Welcome to my Youtube Clone with Django</h2>
 <br />
-
-Recent uploads: <br />
-<ul>
-  <li>Video ID 1</li>
-  <li>Video ID 2</li>
-  <li>Video ID 3</li>
-</ul>
-
-{{ variableA }} {% endblock %}
+<h3>recent uploads</h3>
+<br />
+<div style="position: left">
+  {% for video in most_recent_videos %}
+  <h4>{{ video.title }}</h4>
+  Add: Video player
+  <hr />
+  {% endfor %}
+</div>
+{% endblock %}

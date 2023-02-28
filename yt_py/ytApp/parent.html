@@ -15,41 +15,40 @@
     />
   </head>
   <body>
-    <center>
-      <ul class="nav nav-tabs">
-        <li class="nav-item">
-          <a
-            class="nav-link {% if request.path == '/' %} active {% endif %}"
-            aria-current="page"
-            href=""
-            >Home</a
-          >
-        </li>
-        <li class="nav-item">
-          <a
-            class="nav-link {% if request.path == '/new_video' %} active {% endif %}"
-            href="new_video"
-            >Add Video</a
-          >
-        </li>
-        <li class="nav-item">
-          <a
-            class="nav-link {% if request.path == '/login' %} active {% endif %}"
-            href="login"
-            >Login</a
-          >
-        </li>
-        <li class="nav-item">
-          <a
-            class="nav-link {% if request.path == '/signup' %} active {% endif %}"
-            href="signup"
-            >SignUp</a
-          >
-        </li>
-      </ul>
-      <!-- <a href="">Home</a> | <a href="new_video">Add Video</a> |
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <a
+          class="nav-link {% if request.path == '/' %} active {% endif %}"
+          aria-current="page"
+          href=""
+          >Home</a
+        >
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link {% if request.path == '/new_video' %} active {% endif %}"
+          href="new_video"
+          >Add Video</a
+        >
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link {% if request.path == '/login' %} active {% endif %}"
+          href="login"
+          >Login</a
+        >
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link {% if request.path == '/signup' %} active {% endif %}"
+          href="signup"
+          >SignUp</a
+        >
+      </li>
+    </ul>
+    <!-- <a href="">Home</a> | <a href="new_video">Add Video</a> |
       <a href="login">Sign In</a> | <a href="signup">Sign Up</a> | Support<br /> -->
-    </center>
+
     <div class="mx-auto" style="width: 300px">
       <div class="container-fluid">{% block body %} {% endblock %}</div>
     </div>

@@ -12,8 +12,9 @@ class HomeView(View):
     template_name = 'index.html'
 
     def get(self, request):
-        variableA = 'Index'
-        return render(request, self.template_name, {'variableA': variableA})
+        most_recent_videos = Video.objects.order_by('-datetime')[:10]
+        print(most_recent_videos)
+        return render(request, self.template_name, {'menu_active_item': 'home', 'most_recent_videos': most_recent_videos})
 
 
 class LoginView(View):
@@ -106,17 +107,17 @@ class NewVideo(View):
             description = form.cleaned_data['description']
             file = form.cleaned_data['file']
 
-            # random_char = ''.join(random.choices(
-            #     string.ascii_uppercase + string.digits, k=10))
-            # path = random_char+file.name
+            random_char = ''.join(random.choices(
+                string.ascii_uppercase + string.digits, k=10))
+            path = random_char+file.name
 
             new_video = Video(
                 title=title,
                 description=description,
                 user=request.user,
-                path=file)
+                path=path)
             new_video.save()
-            print(new_video)
+            # print(new_video)
             # todo: redirect to detailed view page of a video
             return HttpResponseRedirect('/video/{}'.format(new_video.id))
         else:
