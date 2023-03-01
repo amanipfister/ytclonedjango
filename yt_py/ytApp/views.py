@@ -6,6 +6,8 @@ from django.contrib.auth import authenticate, login, logout
 from .models import Video, Comment
 import string
 import random
+from django.core.files.storage import FileSystemStorage
+import os
 
 
 class HomeView(View):
@@ -15,6 +17,19 @@ class HomeView(View):
         most_recent_videos = Video.objects.order_by('-datetime')[:10]
         print(most_recent_videos)
         return render(request, self.template_name, {'menu_active_item': 'home', 'most_recent_videos': most_recent_videos})
+
+
+class VideoView(View):
+    template_name = 'video.html'
+
+    def get(self, request, id):
+        # print(request)
+        print('Video-ID: {}'.format(id))
+        # print(dir(request))
+        video_by_id = Video.objects.get(id=id)
+        # print(video_by_id)
+        context = {'video': video_by_id}
+        return render(request, self.template_name)
 
 
 class LoginView(View):
