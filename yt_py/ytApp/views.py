@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views.generic.base import View, HttpResponse, HttpResponseRedirect
-from .forms import LoginForm, SignUpForm, NewVideoForm
+from .forms import LoginForm, SignUpForm, NewVideoForm, CommentForm
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from .models import Video, Comment
@@ -23,12 +23,16 @@ class VideoView(View):
     template_name = 'video.html'
 
     def get(self, request, id):
+
         # print(request)
         print('Video-ID: {}'.format(id))
         # print(dir(request))
         video_by_id = Video.objects.get(id=id)
         # print(video_by_id)
         context = {'video': video_by_id}
+        if request.user.is_authenticated == True:
+            comments_form = CommentForm()
+            context['form'] = comments_form
         return render(request, self.template_name)
 
 
@@ -39,7 +43,7 @@ class LoginView(View):
         if request.user.is_authenticated:
             print('You are already logged in')
             print(request.user)
-            logout(request)
+            # logout(request)
             return HttpResponseRedirect('/')
         form = LoginForm()
         return render(request, self.template_name, {'form': form})
@@ -60,6 +64,18 @@ class LoginView(View):
                 return HttpResponseRedirect('/login')
         # return HttpResponse('This is Login view. POST Request')
 
+class CommentView(View):
+    template_name = 'comment.html'
+
+    def post(self, request):
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            text = form.cleaned_data['text']
+            video = form.cleaned_data['video']
+            new_comment = Comment(text=text, user=request.user, video=video)
+            new_comment.save()
+            return HttpResponseRedirect('/video/{}'.format(video))
+        return HttpResponse('VideoComment View POST')
 
 class SignUpView(View):
     template_name = 'signup.html'

@@ -14,6 +14,12 @@ class SignUpForm(forms.Form):
     # last_name = forms.CharField(label='Your last name', max_length=20)
 
 
+class CommentForm(forms.Form):
+    # username = forms.CharField(label='Username', max_length=20)
+    text = forms.CharField(widget=forms.Textarea, label='Text', max_length=200)
+    video = forms.HiddenInput()
+
+
 class NewVideoForm(forms.Form):
     title = forms.CharField(label='Title', max_length=20)
     description = forms.CharField(label='Description', max_length=200)
