@@ -8,6 +8,7 @@ import string
 import random
 from django.core.files.storage import FileSystemStorage
 import os
+from pathlib import Path
 
 
 class HomeView(View):
@@ -28,12 +29,30 @@ class VideoView(View):
         print('Video-ID: {}'.format(id))
         # print(dir(request))
         video_by_id = Video.objects.get(id=id)
-        # print(video_by_id)
+        BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        video_by_id.path = BASE_DIR+'/'+video_by_id.path
         context = {'video': video_by_id}
         if request.user.is_authenticated == True:
             comments_form = CommentForm()
             context['form'] = comments_form
         return render(request, self.template_name)
+
+
+class CommentView(View):
+    template_name = 'comment.html'
+
+    def post(self, request):
+        form = CommentForm(request.POST)
+        # print(request.POST)
+        if form.is_valid():
+            text = form.cleaned_data['text']
+            video_id = request.POST['video']
+            video = Video.objects.get(id=video_id)
+            new_comment = Comment(text=text, user=request.user, video=video)
+            new_comment.save()
+            return HttpResponseRedirect('/video/{}'.format(str(video_id)))
+
+        return HttpResponse('VideoComment View POST')
 
 
 class LoginView(View):
@@ -64,18 +83,6 @@ class LoginView(View):
                 return HttpResponseRedirect('/login')
         # return HttpResponse('This is Login view. POST Request')
 
-class CommentView(View):
-    template_name = 'comment.html'
-
-    def post(self, request):
-        form = CommentForm(request.POST)
-        if form.is_valid():
-            text = form.cleaned_data['text']
-            video = form.cleaned_data['video']
-            new_comment = Comment(text=text, user=request.user, video=video)
-            new_comment.save()
-            return HttpResponseRedirect('/video/{}'.format(video))
-        return HttpResponse('VideoComment View POST')
 
 class SignUpView(View):
     template_name = 'signup.html'

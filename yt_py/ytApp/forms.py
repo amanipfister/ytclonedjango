@@ -17,7 +17,7 @@ class SignUpForm(forms.Form):
 class CommentForm(forms.Form):
     # username = forms.CharField(label='Username', max_length=20)
     text = forms.CharField(widget=forms.Textarea, label='Text', max_length=200)
-    video = forms.HiddenInput()
+    video = forms.IntegerField(widget=forms.HiddenInput(), initial=1)
 
 
 class NewVideoForm(forms.Form):

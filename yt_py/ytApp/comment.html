@@ -1,0 +1,19 @@
+{% extends "parent.html" %}
+<!-- INPUT -->
+
+<!-- TITLEAREA -->
+{% block title %} LogIn{% endblock %}
+
+<!-- BODY -->
+{% block body %} Account credentials <br />
+
+<form action="login" method="POST">
+  {% csrf_token %}
+  <table>
+    {{ form.as_table }}
+  </table>
+  <button type="submit" class="btn btn-primary">Login</button>
+</form>
+{% endblock %}
+
+<input type="submit" value="Login" />

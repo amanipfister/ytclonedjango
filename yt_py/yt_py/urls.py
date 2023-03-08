@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.urls import include, path
 from django.conf import settings
-from ytApp.views import HomeView, NewVideo, LoginView, SignUpView, VideoView
+from ytApp.views import HomeView, NewVideo, LoginView, SignUpView, VideoView, CommentView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -9,7 +9,8 @@ urlpatterns = [
     path('new_video', NewVideo.as_view()),
     path('login', LoginView.as_view()),
     path('signup', SignUpView.as_view()),
-    path('video/<int:id>', VideoView.as_view())
+    path('video/<int:id>', VideoView.as_view()),
+    path('comment', CommentView.as_view()),
 ]
 
 

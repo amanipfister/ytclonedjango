@@ -7,14 +7,17 @@
 {% block body %}
 <div>
   <h2>{{ video.title }}</h2>
-  Video Player
+  <video width="720" height="480" controls>
+    <source src="{{ video.path }}" type="video/mp4" />
+  </video>
   <p>{{ video.description }}</p>
 </div>
 <br />
 <br />
 <h3>Comments</h3>
-<form action="postcomment" method="POST">
+<form action="/comment" method="POST">
   {% csrf_token %} {{ form }}
+
   <input type="hidden" name="video" value="{{ video.id }}" />
   <button type="submit" class="btn btn-primary">Post</button>
 </form>
